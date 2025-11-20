@@ -1,0 +1,27 @@
+Company Security Policy - Version 1.0
+
+1. Introduction
+   This document outlines the mandatory security practices for all employees of this company.
+
+2. Password Requirements
+   - Passwords must be at least 12 characters long.
+   - Multi-factor authentication (MFA) is required for all internal systems.
+   - Passwords should never be shared or stored in plain text.
+
+3. Data Classification
+   Data is categorized as:
+   - Public
+   - Internal
+   - Confidential
+   - Restricted
+
+4. Acceptable Use Policy
+   Employees must not install unauthorized software.
+   Company laptops should only be used for business purposes.
+   Access to restricted data requires manager approval.
+
+5. Incident Reporting
+   Any suspected data breach must be reported to the Security Team within 30 minutes.
+   The Data Protection Officer (DPO) will coordinate breach investigations.
+
+End of Document.

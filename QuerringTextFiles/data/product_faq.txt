@@ -1,0 +1,18 @@
+Product FAQ
+
+1. What is the XXX RAG System?
+   It is an on-premises Retrieval-Augmented Generation platform that enables users to query documents securely without uploading them to the cloud.
+
+2. What file formats are supported?
+   The system supports PDF, DOCX, TXT, and Markdown files up to 25 MB.
+
+3. What models does it use?
+   The system uses local LLMs running on Ollama, typically Llama 3.1 or Mistral.
+
+4. How are documents processed?
+   Documents are converted into chunks of 500–1000 characters, embedded using SentenceTransformers or OllamaEmbeddings, and stored in a vector database such as ChromaDB or FAISS.
+
+5. Can I use this for enterprise workloads?
+   Yes. The system is designed for enterprises requiring privacy, compliance, and fast document analysis.
+
+End of FAQ.

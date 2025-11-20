@@ -1,0 +1,23 @@
+DevOps Deployment Guide 
+
+1. Build Pipeline Overview
+   - The pipeline uses TeamCity as the CI server.
+   - The codebase is stored in GitLab.
+   - All commits trigger automated static code analysis and unit tests.
+
+2. Security Scanning
+   - Gitleaks is used for secret scanning.
+   - SonarQube performs SAST checks.
+   - OWASP Dependency Check performs software composition analysis (SCA).
+   - Checkov and Trivy run as part of IaC scanning and container scanning.
+
+3. Deployment Workflow
+   - Upon successful build, artifacts are stored in Nexus Repository.
+   - Deployment to staging occurs automatically.
+   - Deployment to production requires approval from the Release Manager.
+
+4. Rollback Procedure
+   - Rollback can be triggered by redeploying the last successful artifact.
+   - Logs are stored centrally via ELK stack for analysis.
+
+End of Guide.
