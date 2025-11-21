@@ -1,4 +1,5 @@
 from TextOperator import TextOperator
+from Embedder import Embedder
 import os
 from pathlib import Path
 
@@ -26,7 +27,11 @@ def main():
             print("Invalid Input")
 
     text_operator = TextOperator(os.path.join(data_folder, docs[user_choice]))
-    text_operator.load_document()
+    texts=text_operator.load_document()
+
+    embedder=Embedder()
+    vector=embedder.get_embeddings(texts)
+    retriever=vector.as_retriever(search_kwargs={"k": 2})
 
 def get_docs_list(folder_path:str) -> list:
     return {
