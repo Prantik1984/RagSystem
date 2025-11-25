@@ -49,7 +49,7 @@ def main():
         "to answer the question:\n{query}"
     )
 
-    llm = ChatOllama(model="llama3.2:latest")
+    llm = ChatOllama(model="llama3.2:latest",temperature=0)
     chain = prompt | llm | StrOutputParser()
     response = chain.invoke({"docs": docs, "query": query})
     print(f"Answer::: \n \n{response}")
