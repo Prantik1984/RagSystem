@@ -9,7 +9,7 @@ class WebOperator:
             article = Article(url)
             article.download()
             article.parse()
-            return article
+            return article.text
         except Exception as e:
             print(e)
             return None

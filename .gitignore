@@ -1,3 +1,5 @@
 .venv
 .idea
 QuerringTextFiles\__pycache__
+.vs
+/WebSiteSummarizer/__pycache__
