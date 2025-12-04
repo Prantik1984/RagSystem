@@ -1,5 +1,5 @@
 import feedparser
-
+import json
 class RssOperator:
     def __init__(self,feed_url:str):
         self.feed_url = feed_url
@@ -18,11 +18,16 @@ class RssOperator:
 
         articles = []
         for entry in feed.entries:
-            articles.append({
-                "title": entry.get("title", ""),
-                "link": entry.get("link", ""),
-                "summary": entry.get("summary", ""),
-                "published": entry.get("published", ""),
-            })
+            try:
+                articles.append({
+                    "title": entry.get("title", ""),
+                    "link": entry.get("link", ""),
+                    "summary": entry.get("summary", ""),
+                    "published": entry.get("published", ""),
+                })
+            except Exception as e:
+                print("Error reading RSS feed:", e)
 
-        print(articles)
+        return articles
+
+
