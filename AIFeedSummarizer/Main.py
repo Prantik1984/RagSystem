@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from Operators.RSSOperator import RssOperator
+from Operators.DbOperator import DbOperator
 import json
 import sys
 
@@ -36,7 +37,8 @@ def retrieve_feeds():
         if articles != None:
             rss_articles.extend(articles)
     if len(rss_articles)>0:
-        print(len(rss_articles))
+        db_operator=DbOperator()
+        db_operator.index_rss_items(rss_articles)
     # with open("output.json", "w") as f:
     #     json.dump(rss_articles, f, indent=4)
 
