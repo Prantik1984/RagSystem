@@ -15,5 +15,29 @@ class DbOperator:
         """
         client = chromadb.PersistentClient(path=self.db_path)
         embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
+            model_name=os.getenv("MODEL_NAME")
         )
+        collection = client.get_or_create_collection(
+            name=self.db_name,
+            embedding_function=embedder
+        )
+        for feed in feeds:
+            self.__index_rss_item(feed, collection)
+
+    def __index_rss_item(self, feed,vector_collection):
+        """"
+        saves the relevant data from the rss feed
+        """
+        try:
+            text = f"{feed['title']}\n\n{feed['summary']}"
+            metadata = {
+                "link": feed["link"]
+            }
+
+            vector_collection.add(
+                ids=[feed["link"]],
+                documents=[text],
+                metadatas=[metadata]
+            )
+        except Exception as e:
+            print(e)
