@@ -6,16 +6,23 @@ import json
 import sys
 
 operation_type=None
+query_string=None
 
 def read_args():
     """"
     reads the command line arguments
     """
     global operation_type
+    global query_string
     for arg in sys.argv:
         if(arg=='--f'):
             operation_type="Retrieve_Feeds"
-            break
+
+        if (arg == '--s'):
+            operation_type = "Query_Feeds"
+
+        if(arg.startswith('--q')):
+            query_string=arg[3:]
 
 def Main():
     load_dotenv()
@@ -23,9 +30,16 @@ def Main():
     match operation_type:
       case "Retrieve_Feeds":
           retrieve_feeds()
+      case "Query_Feeds":
+          if query_string is None:
+              print("No query string provided")
+              return
+          run_query(query_string)
 
 
-
+def run_query(query):
+    db_operator=DbOperator()
+    db_operator.QueryDb(query)
 
 def retrieve_feeds():
     rss_feeds_raw=os.getenv("RSS_FEEDS")
@@ -39,8 +53,8 @@ def retrieve_feeds():
     if len(rss_articles)>0:
         db_operator=DbOperator()
         db_operator.index_rss_items(rss_articles)
-    # with open("output.json", "w") as f:
-    #     json.dump(rss_articles, f, indent=4)
+    with open("output.json", "w") as f:
+        json.dump(rss_articles, f, indent=4)
 
 if __name__ == "__main__":
     Main()

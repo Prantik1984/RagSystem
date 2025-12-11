@@ -41,3 +41,24 @@ class DbOperator:
             )
         except Exception as e:
             print(e)
+
+    def QueryDb(self, query):
+        """"
+        querries the db for the most relevant rss feed
+        """
+        client = chromadb.PersistentClient(path=self.db_path)
+        embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
+            model_name=os.getenv("MODEL_NAME")
+        )
+        collection = client.get_collection(
+            name=self.db_name,
+            embedding_function=embedder
+        )
+
+        results = collection.query(
+            query_texts=[query],
+            n_results=1,
+        )
+
+        print(results)
+
