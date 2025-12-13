@@ -57,8 +57,19 @@ class DbOperator:
 
         results = collection.query(
             query_texts=[query],
-            n_results=1,
+            n_results=5,
         )
 
-        print(results)
+        most_likely_links = [
+            {"id": doc, "distance": dist}
+            for doc, dist in zip(
+                results["ids"][0],
+                results["distances"][0]
+            )
+            if dist < 0.5
+        ]
+
+        if len(most_likely_links)==0:
+            print("No results found")
+
 
