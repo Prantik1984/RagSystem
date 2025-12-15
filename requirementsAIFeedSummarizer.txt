@@ -2,3 +2,4 @@ python-dotenv
 feedparser
 chromadb
 sentence-transformers
+trafilatura

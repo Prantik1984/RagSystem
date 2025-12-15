@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from Operators.RSSOperator import RssOperator
 from Operators.DbOperator import DbOperator
+from Operators.WebPageOperator import WebPageOperator
 import json
 import sys
 
@@ -39,7 +40,14 @@ def Main():
 
 def run_query(query):
     db_operator=DbOperator()
-    db_operator.QueryDb(query)
+    result=db_operator.QueryDb(query)
+    if result['result']:
+        webpage_operator=WebPageOperator()
+        for rslt in result['most_likely_links']:
+            webpage_result=webpage_operator.get_webpage_text(rslt['id'])
+            print(webpage_result)
+    else:
+        print("No results found")
 
 def retrieve_feeds():
     rss_feeds_raw=os.getenv("RSS_FEEDS")

@@ -70,6 +70,7 @@ class DbOperator:
         ]
 
         if len(most_likely_links)==0:
-            print("No results found")
+            return {"result":False}
 
+        return {"result":True, "most_likely_links":most_likely_links}
 
