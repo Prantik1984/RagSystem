@@ -2,12 +2,71 @@ import os
 from dotenv import load_dotenv
 import chromadb
 from chromadb.utils import embedding_functions
+from .WebPageOperator import WebPageOperator
 
 class DbOperator:
     def __init__(self):
         load_dotenv()
         self.db_name = os.getenv("DB_NAME")
         self.db_path = os.getenv("DB_PATH")
+        # self.articles_db = os.getenv("ARTICLES_DB")
+
+    def fetch_article_data(self,link:str):
+        """"
+        checks if the article link has been saved
+        if yes returns its vector
+        else downloads, saves and returns the vector
+        """
+
+        client = chromadb.PersistentClient(path=self.db_path)
+        embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
+            model_name=os.getenv("MODEL_NAME")
+        )
+        collection = client.get_or_create_collection(
+            name=os.getenv("ARTICLES_DB"),
+            embedding_function=embedder,
+            metadata={"hnsw:space": "cosine"}
+        )
+        results = collection.query(
+            query_texts=[link],
+            n_results=1,
+        )
+        if results["ids"] and len(results["ids"][0]) > 0:
+            content = results["documents"][0][0]
+            print(content)
+        else:
+            webpage_operator=WebPageOperator()
+            result_text=webpage_operator.get_webpage_text(link)["content"]
+            ids = [link]
+            docs = [result_text]
+            metas = [
+                {"source": link}
+            ]
+            collection.add(ids=ids, documents=docs, metadatas=metas)
+
+    def save_full_article_to_db(self,link,article_text):
+        """"
+        Saves the article text to the database
+        """
+        articles_db=os.getenv("ARTICLES_DB")
+        client = chromadb.PersistentClient(path=self.db_path)
+        embedder = embedding_functions.SentenceTransformerEmbeddingFunction(
+            model_name=os.getenv("MODEL_NAME")
+        )
+        collection = client.get_or_create_collection(
+            name=articles_db,
+            embedding_function=embedder,
+            metadata={"hnsw:space": "cosine"}
+        )
+
+        ids=[link]
+
+        docs=[article_text]
+        metas=[
+            {"source": "rss", "link": link}
+        ]
+        collection.add(ids=ids, documents=docs, metadatas=metas)
+
 
     def index_rss_items(self,feeds):
         """
@@ -71,6 +130,5 @@ class DbOperator:
 
         if len(most_likely_links)==0:
             return {"result":False}
-
         return {"result":True, "most_likely_links":most_likely_links}
 

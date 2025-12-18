@@ -44,8 +44,9 @@ def run_query(query):
     if result['result']:
         webpage_operator=WebPageOperator()
         for rslt in result['most_likely_links']:
-            webpage_result=webpage_operator.get_webpage_text(rslt['id'])
-            print(webpage_result)
+            db_operator.fetch_article_data(rslt['id'])
+            # webpage_result=webpage_operator.get_webpage_text(rslt['id'])
+            # db_operator.save_full_article_to_db(rslt['id'],webpage_result)
     else:
         print("No results found")
 

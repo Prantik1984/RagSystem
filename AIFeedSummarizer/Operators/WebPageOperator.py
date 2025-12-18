@@ -1,6 +1,9 @@
 import trafilatura
 
 class WebPageOperator:
+    def __init__(self):
+        pass
+
     def get_webpage_text(self,url:str)-> str:
         """"
         download the webpage text from the url
