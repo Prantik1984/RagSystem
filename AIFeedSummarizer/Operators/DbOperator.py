@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import chromadb
 from chromadb.utils import embedding_functions
 from .WebPageOperator import WebPageOperator
+from .LLMSummarizer import LLMSummarizer
 
 class DbOperator:
     def __init__(self):
@@ -33,7 +34,9 @@ class DbOperator:
         )
         if results["ids"] and len(results["ids"][0]) > 0:
             content = results["documents"][0][0]
-            print(content)
+            llm_summarizer = LLMSummarizer()
+            summary = llm_summarizer.summarize_article(content)
+
         else:
             webpage_operator=WebPageOperator()
             result_text=webpage_operator.get_webpage_text(link)["content"]
