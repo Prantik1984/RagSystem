@@ -3,3 +3,4 @@ feedparser
 chromadb
 sentence-transformers
 trafilatura
+ollama

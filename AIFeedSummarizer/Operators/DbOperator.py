@@ -35,7 +35,7 @@ class DbOperator:
         if results["ids"] and len(results["ids"][0]) > 0:
             content = results["documents"][0][0]
             llm_summarizer = LLMSummarizer()
-            summary = llm_summarizer.summarize_article(content)
+            llm_summarizer.summarize_article(content)
 
         else:
             webpage_operator=WebPageOperator()
